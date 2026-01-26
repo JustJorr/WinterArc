@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:winterarc/models/chat_massage.dart';
+import '../models/chat_message.dart';
+import '../widgets/chat_bubble.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -9,12 +10,18 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final List<ChatMassage> _messages = [
-    ChatMassage(
-      id: "1", text: "Hello! Apakah Wajah Kamu kek Kontol", sender: MassageSender.bot, timestamp: DateTime.now()
+  final List<ChatMessage> _messages = [
+    ChatMessage(
+      id: '1',
+      text: 'Hello! Saya Adalah WinterArc. Bisakah saya membantu anda?',
+      sender: MessageSender.bot,
+      timestamp: DateTime.now(),
     ),
-    ChatMassage(
-      id: "2", text: "Hello! Tepat Sekali!", sender: MassageSender.user, timestamp: DateTime.now()
+    ChatMessage(
+      id: '2',
+      text: 'Kau kek kontl',
+      sender: MessageSender.user,
+      timestamp: DateTime.now(),
     ),
   ];
 
@@ -22,21 +29,21 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("WinterArc"),
+        title: const Text('CodeMentor'),
         centerTitle: true,
       ),
-      body: _buildMassageList(),
+      body: _buildMessageList(),
     );
   }
 
-  Widget _buildMassageList() {
-      return ListView.builder(
-        padding: (const EdgeInsets.all(12)),
-        itemCount: _messages.length,
-        itemBuilder: (context, index) {
-          final massage = _messages[index];
-          return ChatBubble(massage: massage);
-        },
-      );
+  Widget _buildMessageList() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(12),
+      itemCount: _messages.length,
+      itemBuilder: (context, index) {
+        final message = _messages[index];
+        return ChatBubble(message: message);
+      },
+    );
   }
 }

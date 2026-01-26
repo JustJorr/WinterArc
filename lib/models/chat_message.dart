@@ -1,15 +1,15 @@
-enum MassageSender {
+enum MessageSender {
   user,
   bot,
 }
 
-class ChatMassage {
+class ChatMessage {
   final String id;
   final String text;
-  final MassageSender sender;
+  final MessageSender sender;
   final DateTime timestamp;
 
-  ChatMassage({
+  ChatMessage({
     required this.id,
     required this.text,
     required this.sender,
