@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/chat_message.dart';
 import '../widgets/chat_bubble.dart';
-
+import '../widgets/typing_indicator.dart';
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -12,6 +12,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  bool _isBotTyping = false;
 
   final List<ChatMessage> _messages = [
     ChatMessage(
@@ -32,9 +33,12 @@ class _ChatScreenState extends State<ChatScreen> {
     return ListView.builder(
       controller: ScrollController(),
       padding: const EdgeInsets.all(12),
-      itemCount: _messages.length,
+      itemCount: _messages.length + (_isBotTyping ? 1 : 0),
       itemBuilder: (context, index) {
-        return ChatBubble(message: _messages[index]);
+        if (_isBotTyping && index == _messages.length) {
+          return const TypingIndicator();
+        }
+          return ChatBubble(message: _messages[index]);
       },
     );
   }
@@ -47,6 +51,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(
             child: TextField(
               controller: _textController,
+              enabled: !_isBotTyping,
               textInputAction: TextInputAction.send,
               decoration: const InputDecoration(
                 hintText: "Ko Jawa Tanya Sudah",
@@ -58,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
           const SizedBox(width: 8),
           IconButton(
             icon: const Icon(Icons.send),
-            onPressed: _sendMessage,
+            onPressed: _isBotTyping ? null : _sendMessage,
             ),
         ],
       ),
@@ -101,17 +106,26 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
   void _simulateBotReply() {
+    setState(() {
+      _isBotTyping = true;
+    });
+
+    _scrollToBottom();
+
     Future.delayed(const Duration(seconds: 1), () {
       final botMessage = ChatMessage(
         id: DateTime.now().millisecondsSinceEpoch.toString(), 
-        text: "Kontolone", 
+        text: "Koe bodoh ya? Ni tak Jelasin", 
         sender: MessageSender.bot, 
         timestamp: DateTime.now(),
         );
 
         setState(() {
+          _isBotTyping = false;
           _messages.add(botMessage);
         });
+
+        _scrollToBottom();
     });
   }
 
