@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/chat_message.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/typing_indicator.dart';
+import '../services/chat_services.dart';
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -12,33 +12,38 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final ChatServices _chatService = ChatServices();
   bool _isBotTyping = false;
 
-  final List<ChatMessage> _messages = [
-    ChatMessage(
-      id: '1',
-      text: 'Hello! Saya Adalah WinterArc. Bisakah saya membantu anda?',
-      sender: MessageSender.bot,
-      timestamp: DateTime.now(),
-    ),
-    ChatMessage(
-      id: '2',
-      text: 'Kau kek kontl',
-      sender: MessageSender.user,
-      timestamp: DateTime.now(),
-    ),
-  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('CodeMentor'),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          Expanded(child: _buildMessageList()),
+          _buildInputArea(),
+        ],
+      ),
+    );
+  }
+
 
   Widget _buildMessageList() {
+    final messages = _chatService.messages;
+
     return ListView.builder(
       controller: ScrollController(),
       padding: const EdgeInsets.all(12),
-      itemCount: _messages.length + (_isBotTyping ? 1 : 0),
+      itemCount: messages.length + (_isBotTyping ? 1 : 0),
       itemBuilder: (context, index) {
-        if (_isBotTyping && index == _messages.length) {
+        if (_isBotTyping && index == messages.length) {
           return const TypingIndicator();
         }
-          return ChatBubble(message: _messages[index]);
+          return ChatBubble(message: messages[index]);
       },
     );
   }
@@ -86,22 +91,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _sendMessage() {
     final text = _textController.text.trim();
-    if (text.isEmpty) return;
-
-    final userMessage = ChatMessage(
-      id: DateTime.now().millisecondsSinceEpoch.toString(), 
-      text: text, 
-      sender: MessageSender.user, 
-      timestamp: DateTime.now(),
-      );
+    if (text.isEmpty || _isBotTyping) return;
 
     setState(() {
-      _messages.add(userMessage);
-
+      _chatService.addUserMessage(text);
+    });
       _textController.clear();
       _scrollToBottom();
       _simulateBotReply();
-    });
   }
 
 
@@ -112,17 +109,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _scrollToBottom();
 
-    Future.delayed(const Duration(seconds: 1), () {
-      final botMessage = ChatMessage(
-        id: DateTime.now().millisecondsSinceEpoch.toString(), 
-        text: "Koe bodoh ya? Ni tak Jelasin", 
-        sender: MessageSender.bot, 
-        timestamp: DateTime.now(),
+    Future.delayed(const Duration(seconds: 2), () {
+      final botMessage = _chatService.createBotReply(
+        "Jancok ni tak jelasin Kont...",
         );
 
         setState(() {
           _isBotTyping = false;
-          _messages.add(botMessage);
+          _chatService.addMessage(botMessage);
         });
 
         _scrollToBottom();
@@ -130,19 +124,5 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('CodeMentor'),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Expanded(child: _buildMessageList()),
-          _buildInputArea(),
-        ],
-      ),
-    );
-  }
+  
 }
