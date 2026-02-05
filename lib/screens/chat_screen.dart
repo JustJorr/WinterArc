@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:winterarc/services/auth_service.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/typing_indicator.dart';
 import '../services/chat_services.dart';
@@ -13,7 +14,18 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final ChatServices _chatService = ChatServices();
+  final AuthService _authService = AuthService();
   bool _isBotTyping = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _signIn();
+  }
+
+  Future<void> _signIn() async {
+    await _authService.signInAnonymously();
+  }
 
   @override
   Widget build(BuildContext context) {
