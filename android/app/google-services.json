@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "112973370665",
+    "project_id": "winterarc-f20e6",
+    "storage_bucket": "winterarc-f20e6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112973370665:android:70abb37e37a2e6efd79338",
+        "android_client_info": {
+          "package_name": "com.example.winterarc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEPQeUrLr2NpRISfw8s3xAy9jMvyniKkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112973370665:android:b39f882747870140d79338",
+        "android_client_info": {
+          "package_name": "com.winterarc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEPQeUrLr2NpRISfw8s3xAy9jMvyniKkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

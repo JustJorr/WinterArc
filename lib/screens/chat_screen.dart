@@ -19,7 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CodeMentor'),
+        title: const Text('WinterArc'),
         centerTitle: true,
       ),
       body: Column(
@@ -59,7 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
               enabled: !_isBotTyping,
               textInputAction: TextInputAction.send,
               decoration: const InputDecoration(
-                hintText: "Ko Jawa Tanya Sudah",
+                hintText: "Kontol Kau anjeng",
                 border: OutlineInputBorder(),
               ),
               onSubmitted: (_) => _sendMessage(),
@@ -122,7 +122,4 @@ class _ChatScreenState extends State<ChatScreen> {
         _scrollToBottom();
     });
   }
-
-
-  
 }
