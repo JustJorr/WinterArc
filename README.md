@@ -1,1 +1,1 @@
-wazzup bro
+hidup blonde
