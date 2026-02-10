@@ -104,37 +104,38 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
 
-  void _sendMessage() {
+  void _sendMessage() async {
     final text = _textController.text.trim();
     if (text.isEmpty || _isBotTyping) return;
 
-    setState(() {
-      _chatService.addUserMessage(text);
-    });
-      _textController.clear();
+  _textController.clear();
+
+    setState(() {});
+      await  _chatService.addUserMessage(text);
+      setState(() {});
+
       _scrollToBottom();
       _simulateBotReply();
   }
 
 
-  void _simulateBotReply() {
+  void _simulateBotReply() async {
     setState(() {
       _isBotTyping = true;
     });
 
     _scrollToBottom();
 
-    Future.delayed(const Duration(seconds: 2), () {
-      final botMessage = _chatService.createBotReply(
-        "Jancok ni tak jelasin Kont...",
-        );
+    await Future.delayed(const Duration(seconds: 1));
+
+    await _chatService.addBotMessage(
+      "Kontole itu aja tak ngerti jawa jawa, ni tak jelasin bodo"
+    );
 
         setState(() {
           _isBotTyping = false;
-          _chatService.addMessage(botMessage);
         });
 
         _scrollToBottom();
-    });
   }
 }
