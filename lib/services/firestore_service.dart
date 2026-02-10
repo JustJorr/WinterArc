@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../models/chat_message.dart';
+import '../models/chat.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -14,17 +14,17 @@ class FirestoreService {
       .collection('messages');
   }
 
-  Future<void> saveMesage(ChatMessage message) async {
+  Future<void> saveMesage(Chat message) async {
     await _messagesRef.doc(message.id).set(message.toMap());
   }
 
-  Future<List<ChatMessage>> loadMessages() async {
+  Future<List<Chat>> loadMessages() async {
     final snapshot = await _messagesRef
       .orderBy('timestamp')
       .get();
 
     return snapshot.docs
-      .map((doc) => ChatMessage.fromMap(doc.id, doc.data()))
+      .map((doc) => Chat.fromMap(doc.id, doc.data()))
       .toList();
   }
 }

@@ -1,11 +1,11 @@
-import 'package:winterarc/models/chat_message.dart';
+import 'package:winterarc/models/chat.dart';
 import 'firestore_service.dart';
 
 class ChatServices {
-  final List<ChatMessage> _messages = [];
+  final List<Chat> _messages = [];
   final FirestoreService _firestoreService = FirestoreService();
 
-  List<ChatMessage> get messages => List.unmodifiable(_messages);
+  List<Chat> get messages => List.unmodifiable(_messages);
 
   Future<void> loadMessages() async {
     final loaded = await _firestoreService.loadMessages();
@@ -14,7 +14,7 @@ class ChatServices {
   }
 
   Future<void> addUserMessage(String text) async {
-    final message = ChatMessage(
+    final message = Chat(
         id: DateTime.now().millisecondsSinceEpoch.toString(), 
         text: text, 
         sender: MessageSender.user, 
@@ -26,7 +26,7 @@ class ChatServices {
   }
 
   Future<void> addBotMessage (String text) async {
-    final message = ChatMessage(
+    final message = Chat(
     id: DateTime.now().millisecondsSinceEpoch.toString(), 
     text: text, 
     sender: MessageSender.bot, 
@@ -37,8 +37,8 @@ class ChatServices {
     await _firestoreService.saveMesage(message);
   }
 
-  ChatMessage createBotReply(String text) {
-    return ChatMessage(
+  Chat createBotReply(String text) {
+    return Chat(
       id: DateTime.now().millisecondsSinceEpoch.toString(), 
       text: text, 
       sender: MessageSender.bot,
@@ -46,7 +46,7 @@ class ChatServices {
       );
   }
 
-  void addMessage(ChatMessage message) {
+  void addMessage(Chat message) {
     _messages.add(message);
   }
 }

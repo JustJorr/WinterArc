@@ -20,11 +20,14 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    _signIn();
+    _initializeChat();
   }
 
-  Future<void> _signIn() async {
+  Future<void> _initializeChat() async {
     await _authService.signInAnonymously();
+    await _chatService.loadMessages();
+    setState(() {});
+    _scrollToBottom();
   }
 
   @override

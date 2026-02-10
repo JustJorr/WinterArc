@@ -5,13 +5,13 @@ enum MessageSender {
   bot,
 }
 
-class ChatMessage {
+class Chat {
   final String id;
   final String text;
   final MessageSender sender;
   final DateTime timestamp;
 
-  ChatMessage({
+  Chat({
     required this.id,
     required this.text,
     required this.sender,
@@ -26,8 +26,8 @@ class ChatMessage {
     };
   }
 
-  factory ChatMessage.fromMap(String id, Map<String, dynamic> map) {
-    return ChatMessage(
+  factory Chat.fromMap(String id, Map<String, dynamic> map) {
+    return Chat(
       id: id,
       text: map['text'],
       sender: MessageSender.values.byName(map['sender']),
