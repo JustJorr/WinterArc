@@ -115,27 +115,23 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() {});
 
       _scrollToBottom();
-      _simulateBotReply();
+      _simulateBotReply(text);
   }
 
 
-  void _simulateBotReply() async {
+  void _simulateBotReply(String userPrompt) async {
     setState(() {
       _isBotTyping = true;
     });
 
     _scrollToBottom();
 
-    await Future.delayed(const Duration(seconds: 1));
+    await _chatService.addBotMessage(userPrompt);
 
-    await _chatService.addBotMessage(
-      "Kontole itu aja tak ngerti jawa jawa, ni tak jelasin bodo"
-    );
+    setState(() {
+      _isBotTyping = false;
+    });
 
-        setState(() {
-          _isBotTyping = false;
-        });
-
-        _scrollToBottom();
+    _scrollToBottom();
   }
 }

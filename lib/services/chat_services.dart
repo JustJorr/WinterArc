@@ -1,9 +1,11 @@
 import 'package:winterarc/models/chat.dart';
 import 'firestore_service.dart';
+import 'gemini_service.dart';
 
 class ChatServices {
   final List<Chat> _messages = [];
   final FirestoreService _firestoreService = FirestoreService();
+  final GeminiService _geminiService = GeminiService();
 
   List<Chat> get messages => List.unmodifiable(_messages);
 
@@ -25,10 +27,12 @@ class ChatServices {
       await _firestoreService.saveMesage(message);
   }
 
-  Future<void> addBotMessage (String text) async {
+  Future<void> addBotMessage (String userPrompt) async {
+    final reply = await _geminiService.generateReply(userPrompt);    
+
     final message = Chat(
     id: DateTime.now().millisecondsSinceEpoch.toString(), 
-    text: text, 
+    text: reply, 
     sender: MessageSender.bot, 
     timestamp: DateTime.now()
     );

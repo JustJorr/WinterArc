@@ -5,8 +5,8 @@ import 'screens/chat_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp();
   runApp(const WinterArc());
 }
 
