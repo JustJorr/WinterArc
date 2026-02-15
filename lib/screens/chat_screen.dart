@@ -126,7 +126,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _scrollToBottom();
 
-    await _chatService.addBotMessage(userPrompt);
+    await _chatService.addBotMessage();
 
     setState(() {
       _isBotTyping = false;

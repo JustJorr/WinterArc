@@ -17,37 +17,28 @@ class ChatServices {
 
   Future<void> addUserMessage(String text) async {
     final message = Chat(
-        id: DateTime.now().millisecondsSinceEpoch.toString(), 
-        text: text, 
-        sender: MessageSender.user, 
-        timestamp: DateTime.now(),
-      );
-
-      _messages.add(message);
-      await _firestoreService.saveMesage(message);
-  }
-
-  Future<void> addBotMessage (String userPrompt) async {
-    final reply = await _geminiService.generateReply(userPrompt);    
-
-    final message = Chat(
-    id: DateTime.now().millisecondsSinceEpoch.toString(), 
-    text: reply, 
-    sender: MessageSender.bot, 
-    timestamp: DateTime.now()
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      text: text,
+      sender: MessageSender.user,
+      timestamp: DateTime.now(),
     );
 
     _messages.add(message);
     await _firestoreService.saveMesage(message);
   }
 
-  Chat createBotReply(String text) {
-    return Chat(
-      id: DateTime.now().millisecondsSinceEpoch.toString(), 
-      text: text, 
+  Future<void> addBotMessage() async {
+    final reply = await _geminiService.generateReply(_messages);
+
+    final message = Chat(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      text: reply,
       sender: MessageSender.bot,
       timestamp: DateTime.now(),
-      );
+    );
+
+    _messages.add(message);
+    await _firestoreService.saveMesage(message);
   }
 
   void addMessage(Chat message) {
