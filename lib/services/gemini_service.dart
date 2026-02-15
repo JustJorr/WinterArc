@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../core/personality.dart';
 
 class GeminiService {
   final String _apiKey = dotenv.env["GEMINI_API_KEY"] ?? '';
   
  static const String _endpoint =
-  'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+  'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 
-  Future<String> generateReply(String prompt) async {
+  Future<String> generateReply(String userMessage) async {
     if (_apiKey.isEmpty) {
       throw Exception('Kontole API nya mana, wasu');
     }
@@ -23,7 +24,8 @@ class GeminiService {
         'contents': [
           {
             'parts': [
-              {'text': prompt}
+              {'text' : winterArcPersonality},
+              {'text': userMessage},
             ]
           }
         ]
