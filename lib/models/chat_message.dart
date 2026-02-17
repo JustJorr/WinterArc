@@ -1,5 +1,5 @@
 class ChatMessage {
-  final String role; // "user" or "model"
+  final String role;
   final String text;
 
   ChatMessage({

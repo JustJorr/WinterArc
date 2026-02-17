@@ -12,7 +12,7 @@ class GeminiService {
 
   Future<String> generateReply(List<Chat> messages) async {
     if (_apiKey.isEmpty) {
-      throw Exception('API key is missing');
+      throw Exception('Kontole API nya mana asu');
     }
 
     final url = Uri.parse('$_endpoint?key=$_apiKey');

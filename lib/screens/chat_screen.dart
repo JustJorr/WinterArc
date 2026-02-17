@@ -3,6 +3,7 @@ import 'package:winterarc/services/auth_service.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/typing_indicator.dart';
 import '../services/chat_services.dart';
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -36,6 +37,15 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         title: const Text('WinterArc'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_outline),
+            onPressed: () async {
+              await _chatService.clearChat();
+              setState(() {});
+            },
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -74,7 +84,7 @@ class _ChatScreenState extends State<ChatScreen> {
               enabled: !_isBotTyping,
               textInputAction: TextInputAction.send,
               decoration: const InputDecoration(
-                hintText: "Kontol Kau anjeng",
+                hintText: "Kontol kau anjeng",
                 border: OutlineInputBorder(),
               ),
               onSubmitted: (_) => _sendMessage(),

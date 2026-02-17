@@ -44,4 +44,9 @@ class ChatServices {
   void addMessage(Chat message) {
     _messages.add(message);
   }
+
+  Future<void> clearChat() async {
+    _messages.clear();
+    await _firestoreService.deleteAllChat();
+  }
 }

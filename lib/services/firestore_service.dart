@@ -27,4 +27,11 @@ class FirestoreService {
       .map((doc) => Chat.fromMap(doc.id, doc.data()))
       .toList();
   }
+
+  Future<void> deleteAllChat() async {
+    final snapshot = await _messagesRef.get();
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+  }
 }
