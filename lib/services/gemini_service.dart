@@ -21,7 +21,7 @@ class GeminiService {
       {
         "role": "model",
         "parts": [
-          {"text": winterArcPersonality}
+          {"text": winterArcPersonality2}
         ]
       }
     ];
@@ -53,6 +53,10 @@ class GeminiService {
       throw Exception(
         'Gemini error (${response.statusCode}): ${response.body}',
       );
+    }
+
+    if (response.statusCode == 404) {
+      return "API key is missing";
     }
 
     final data = jsonDecode(response.body);
